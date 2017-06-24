@@ -1,2 +1,6 @@
 <h2><%=t :text_traces_title%></h2>
 <%= content_tag('p', l(:label_no_data), :class => 'nodata') if @traces_data.empty? %>
+<% content_for :sidebar do %>
+    <%= render :partial => 'issues/sidebar' %>
+<% end %>
+<% html_title(l(:text_menu_home)) -%>
