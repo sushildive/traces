@@ -43,10 +43,40 @@ module TracesHomeHelper
         return 0 unless !@id.nil?
         @id.hash
       end
+      
+      def entries
+        (CollectionUtil.size(@requirements) + CollectionUtil.size(@designs) + CollectionUtil.size(@makes) + CollectionUtil.size(@tests)) 
+      end
     end
   end
 
   module TracesEngine
-     
+    include TracesModel
+    
+    def loadTestData
+      result=[]
+      story = Story.new "NGAXXX", "New XXX feature"
+      result.push story
+      
+      reqs=[]
+      reqa=Artifact.new("some/path")
+      reqa.revision(1).revision(2)
+      reqs.push(reqa);
+      story.requirements=reqs
+      desg=[reqa]
+      desgb=Artifact.new("some/other/path")
+      desgb.revision(5).revision(6)
+      desg.push desgb
+      story.designs=desg
+      result
+    end
+  end
+  
+  module CollectionUtil
+    def self.size (obj)
+      return 0 unless !obj.nil?
+      return 0 unless obj.kind_of? Array
+      return obj.size
+    end
   end
 end

@@ -1,5 +1,86 @@
 <h2><%=t :text_traces_title%></h2>
 <%= content_tag('p', l(:label_no_data), :class => 'nodata') if @traces_data.empty? %>
+
+<% if !@traces_data.empty? %>
+<table>
+<thead>
+	<tr>
+		<td><%=l(:label_traces_story)%></td>
+		<td><%=l(:label_traces_phase)%></td>
+		<td><%=l(:label_traces_artifact)%></td>
+		<td><%=l(:label_traces_revision)%></td>
+	</tr>
+</thead>
+<tbody>
+    <% @traces_data.each_with_index do |storyData, idx| %>
+		<% storyRowFlag=false %>
+		<% if !storyData.requirements.nil? && !storyData.requirements.empty? %>
+			<% storyData.requirements.each_with_index do |phaseData, idx| %>
+				<tr>
+					<% if idx == 0 %>
+						<td rowspan="<%=storyData.entries%>"><%=storyData.id%></td>
+						<td rowspan="<%=storyData.requirements.size%>"><%=l(:label_traces_requirement)%></td>
+					<% end%>
+					<td><%=phaseData.path%></td>
+					<td><%=phaseData.revisions%></td>
+				</tr>
+			<% end %>
+			<% storyRowFlag=true %>
+		<% end %>
+
+		<% if !storyData.designs.nil? && !storyData.designs.empty? %>
+			<% storyData.designs.each_with_index do |phaseData, idx| %>
+				<tr>
+					<% if idx == 0 && !storyRowFlag %>
+						<td rowspan="<%=storyData.entries%>"><%=storyData.id%></td>
+					<% end%>
+					<% if idx == 0 %>
+						<td rowspan="<%=storyData.designs.size%>"><%=l(:label_traces_design)%></td>
+					<% end%>
+					<td><%=phaseData.path%></td>
+					<td><%=phaseData.revisions%></td>
+				</tr>
+			<% end %>
+			<% storyRowFlag=true %>
+		<% end %>
+
+		<% if !storyData.makes.nil? && !storyData.makes.empty? %>
+			<% storyData.makes.each_with_index do |phaseData, idx| %>
+				<tr>
+					<% if idx == 0 && !storyRowFlag %>
+						<td rowspan="<%=storyData.entries%>"><%=storyData.id%></td>
+					<% end%>
+					<% if idx == 0 %>
+						<td rowspan="<%=storyData.makes.size%>"><%=l(:label_traces_development)%></td>
+					<% end%>
+					<td><%=phaseData.path%></td>
+					<td><%=phaseData.revisions%></td>
+				</tr>
+			<% end %>
+			<% storyRowFlag=true %>
+		<% end %>
+		
+		<% if !storyData.tests.nil? && !storyData.tests.empty? %>
+			<% storyData.tests.each_with_index do |phaseData, idx| %>
+				<tr>
+					<% if idx == 0 && !storyRowFlag %>
+						<td rowspan="<%=storyData.entries%>"><%=storyData.id%></td>
+					<% end%>
+					<% if idx == 0 %>
+						<td rowspan="<%=storyData.tests.size%>"><%=l(:label_traces_testing)%></td>
+					<% end%>
+					<td><%=phaseData.path%></td>
+					<td><%=phaseData.revisions%></td>
+				</tr>
+			<% end %>
+			<% storyRowFlag=true %>
+		<% end %>
+
+    <% end %>
+</tbody>
+</table
+<% end %>
+
 <% content_for :sidebar do %>
     <%= render :partial => 'issues/sidebar' %>
 <% end %>
