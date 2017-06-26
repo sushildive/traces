@@ -53,7 +53,7 @@ class TestArtifact < Test::Unit::TestCase
     assert_equal("".hash, Artifact.new("").hash)
   end
 
-  def testHashWithEmptyStringId
+  def testHashWithMismatchStringId
     assert_not_equal("Dravid".hash, Artifact.new("Rahul").hash)
   end
   

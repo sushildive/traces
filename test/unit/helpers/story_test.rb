@@ -53,7 +53,7 @@ class TestStory < Test::Unit::TestCase
     assert_equal("".hash, Story.new("", nil).hash)
   end
 
-  def testHashWithEmptyStringId
+  def testHashWithMismatchStringId
     assert_not_equal("Dravid".hash, Story.new("Rahul", nil).hash)
   end
 end
