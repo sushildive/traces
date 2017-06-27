@@ -1,4 +1,18 @@
+require "yaml"
+
+
+class String
+  def wrap(using)
+    return self unless !using.nil?
+    (using + self + using)
+  end
+end
+
+
 module TracesHomeHelper
+  # Jugad, need to find correct way!
+  APP_CFG = YAML.load_file(File.dirname(__FILE__)+"/../../config/traces.yml")['config']
+  
   module TracesModel
     class Artifact
       attr_accessor :path, :revisions
@@ -69,6 +83,26 @@ module TracesHomeHelper
       desg.push desgb
       story.designs=desg
       result
+    end
+    
+    def self.loadData(projectId)
+      return [] unless !projectId.nil?
+      #storyIdPattern = '%' << TracesHomeHelper::APP_CFG["query_story_id_pattern"] << '%'
+      storyIdPattern = TracesHomeHelper::APP_CFG["query_story_id_pattern"].wrap('%')
+      # Find list of issues in the input project matching to the story id pattern
+      issueList = Issue.select("issues.id, subject").joins("INNER JOIN projects ON projects.id=issues.project_id").where(["subject like ?", storyIdPattern]).where("issues.id=issues.root_id").where(["projects.id=?", projectId])
+      
+      # Initialize empty result
+      result=[]
+      # Now, for each identified issue, extract story Ids and load the trace data
+      issueList.each do |issueData|
+        toStories(issueData)
+      end
+    end
+    
+    def toStories (issueData)
+      storyIdPattern=TracesHomeHelper::APP_CFG["text_story_id_pattern"]
+      #WIP
     end
   end
   
