@@ -22,7 +22,9 @@
 						<td rowspan="<%=storyData.requirements.size%>"><%=l(:label_traces_requirement)%></td>
 					<% end%>
 					<td><%=phaseData.path%></td>
-					<td><%=phaseData.revisions%></td>
+					<td><%phaseData.revisions.each_with_index do |rev,idx|%>
+            <%=link_to(rev.slice(0,8), {:controller => 'repositories', :action => 'revision', :id => @project.identifier, :rev => rev}, :class => 'changeset')%>
+          <%end%></td>
 				</tr>
 			<% end %>
 			<% storyRowFlag=true %>
@@ -38,7 +40,9 @@
 						<td rowspan="<%=storyData.designs.size%>"><%=l(:label_traces_design)%></td>
 					<% end%>
 					<td><%=phaseData.path%></td>
-					<td><%=phaseData.revisions%></td>
+					<td><%phaseData.revisions.each_with_index do |rev,idx|%>
+            <%=link_to(rev.slice(0,8), {:controller => 'repositories', :action => 'revision', :id => @project.identifier, :rev => rev}, :class => 'changeset')%>
+          <%end%></td>
 				</tr>
 			<% end %>
 			<% storyRowFlag=true %>
@@ -54,7 +58,9 @@
 						<td rowspan="<%=storyData.makes.size%>"><%=l(:label_traces_development)%></td>
 					<% end%>
 					<td><%=phaseData.path%></td>
-					<td><%=phaseData.revisions%></td>
+					<td><%phaseData.revisions.each_with_index do |rev,idx|%>
+            <%=link_to(rev.slice(0,8), {:controller => 'repositories', :action => 'revision', :id => @project.identifier, :rev => rev}, :class => 'changeset')%>
+          <%end%></td>
 				</tr>
 			<% end %>
 			<% storyRowFlag=true %>
@@ -70,7 +76,9 @@
 						<td rowspan="<%=storyData.tests.size%>"><%=l(:label_traces_testing)%></td>
 					<% end%>
 					<td><%=phaseData.path%></td>
-					<td><%=phaseData.revisions%></td>
+					<td><%phaseData.revisions.each_with_index do |rev,idx|%>
+            <%=link_to(rev.slice(0,8), {:controller => 'repositories', :action => 'revision', :id => @project.identifier, :rev => rev}, :class => 'changeset')%>
+          <%end%></td>
 				</tr>
 			<% end %>
 			<% storyRowFlag=true %>

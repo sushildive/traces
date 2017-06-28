@@ -1,5 +1,9 @@
 # Traces configuration
-
 config:
   query_story_id_pattern: "NGA"
   text_story_id_pattern: (NGA)[\w\d-]+
+  artifact_cateogry:
+    requirement: "requirements"
+    design: "design"
+    make: "construction"
+    test: "tests"

@@ -58,19 +58,19 @@ class TestArtifact < Test::Unit::TestCase
   end
   
   def testRevisionWithNewArtifactObject
-    artifact = Artifact.new("Rahul");
+    artifact = Artifact.new("Rahul")
     assert_equal(nil, artifact.revisions)
   end
   
   def testRevisionWithNewRevisionItem
-    artifact = Artifact.new("Rahul");
+    artifact = Artifact.new("Rahul")
     artifact.revision 1
     assert_equal(1, artifact.revisions.size)
     assert_equal(1, artifact.revisions[0])
   end
 
   def testRevisionWithTwoRevisionItem
-    artifact = Artifact.new("Rahul");
+    artifact = Artifact.new("Rahul")
     artifact.revision 1
     artifact.revision 5
     assert_equal(2, artifact.revisions.size)
@@ -78,11 +78,27 @@ class TestArtifact < Test::Unit::TestCase
   end
   
   def testRevisionWithDuplicateItem
-    artifact = Artifact.new("Rahul");
+    artifact = Artifact.new("Rahul")
     artifact.revision 1
     artifact.revision 6
     artifact.revision 6
     assert_equal(2, artifact.revisions.size)
     assert_equal([1, 6], artifact.revisions)
+  end
+  
+  def testCategoryRequirementCategory
+    assert_equal :cat_requirement, Artifact.new("path/requirements/file").category
+  end
+  
+  def testCategoryDesignCategory
+    assert_equal :cat_design, Artifact.new("path/design/file").category
+  end
+  
+  def testCategoryMakeCategory
+    assert_equal :cat_make, Artifact.new("path/construction/file").category
+  end
+  
+  def testCategoryTestCategory
+    assert_equal :cat_test, Artifact.new("path/tests/file").category
   end
 end

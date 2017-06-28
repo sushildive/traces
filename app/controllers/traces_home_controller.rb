@@ -6,10 +6,11 @@ class TracesHomeController < ApplicationController
   
   helper :issues
   include TracesHomeHelper::TracesModel
+  include TracesHomeHelper
   include TracesHomeHelper::TracesEngine
   
   def index
     @project = Project.find(params[:project_id])
-    @traces_data = loadTestData
+    @traces_data = TracesEngine.loadData @project.id
   end
 end
