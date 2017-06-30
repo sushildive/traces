@@ -56,4 +56,24 @@ class TestStory < Test::Unit::TestCase
   def testHashWithMismatchStringId
     assert_not_equal("Dravid".hash, Story.new("Rahul", nil).hash)
   end
+  
+  def testArtifactWithFirstValue
+    story = Story.new("Rahul", nil)
+    artifact = Artifact.new("some/requirements")
+    artifact.revision(100)
+    story.artifact(artifact, :cat_requirement)
+    assert_equal(1,story.requirements.size)
+  end
+
+  def testArtifactWithSecondValue
+    story = Story.new("Rahul", nil)
+    artifact = Artifact.new("some/requirements")
+    artifact.revision(200)
+    story.artifact(artifact, :cat_requirement)
+    artifact = Artifact.new("some/requirements")
+    artifact.revision(100)
+    story.artifact(artifact, :cat_requirement)
+    assert_equal(1,story.requirements.size)
+  end
+
 end

@@ -1,14 +1,16 @@
+<%= stylesheet_link_tag "tracess.css", :plugin => 'traces', :media => 'print,screen' %>
+<%= javascript_include_tag('jquery/jquery.min.js', 'tracess.js', :plugin => 'traces') %>
 <h2><%=t :text_traces_title%></h2>
 <%= content_tag('p', l(:label_no_data), :class => 'nodata') if @traces_data.empty? %>
 
 <% if !@traces_data.empty? %>
-<table>
+<table class="tracelist">
 <thead>
 	<tr>
-		<td><%=l(:label_traces_story)%></td>
-		<td><%=l(:label_traces_phase)%></td>
-		<td><%=l(:label_traces_artifact)%></td>
-		<td><%=l(:label_traces_revision)%></td>
+		<th class='story'><%=l(:label_traces_story)%></th>
+		<th class='phase'><%=l(:label_traces_phase)%></th>
+		<th class='artifact'><%=l(:label_traces_artifact)%></th>
+		<th class='revision'><%=l(:label_traces_revision)%></th>
 	</tr>
 </thead>
 <tbody>

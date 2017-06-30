@@ -56,8 +56,12 @@ module TracesHomeHelper
         end
         
         if !target.nil?
-          if target.member?(artifactObject)
-            target[artifactObject].revision artifactObject.revisions[0]
+          idx=target.index {|o| artifactObject.eql? o}
+          unless idx.nil?
+            ele = target[idx]
+          end
+          if ele
+            ele.revision artifactObject.revisions[0]
           else
             target.push artifactObject
           end
@@ -81,7 +85,7 @@ module TracesHomeHelper
       def eql?(other)
         return false unless !other.nil?
         return false unless (other.kind_of? Artifact)
-        @path.eql?other.path
+        self.path.eql? other.path
       end
       
       def hash
