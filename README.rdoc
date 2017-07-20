@@ -1,3 +1,9 @@
 = traces
 
-Description goes here
+Traces is a Redmine plug-in.
+It is a form of Requirement Traceability Matrix.
+Allows to view list of SDLC artefacts modified during development of a story.
+This plug-in relies on the data collected by the Redmine Repository feature.
+Some of the features we are working on currently:
+- Pagination
+- Per project configuration
