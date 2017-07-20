@@ -1,7 +1,6 @@
 # Traces configuration
 config:
-  query_story_id_pattern: "NGA"
-  text_story_id_pattern: (NGA)[\w\d-]+
+  limit: "2"
   artifact_cateogry:
     requirement: "requirements"
     design: "design"

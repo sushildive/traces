@@ -7,8 +7,8 @@
 <table class="tracelist">
 <thead>
 	<tr>
-		<th class='storyid'><%=l(:label_traces_story)%></th>
-		<th class='storyname'><%=l(:label_traces_story_subject)%></th>
+    <th class='storyid'><%=l(:label_traces_story)%></th>
+    <th class='storyname'><%=l(:label_traces_story_subject)%></th>
 		<th class='phase'><%=l(:label_traces_phase)%></th>
 		<th class='artifact'><%=l(:label_traces_artifact)%></th>
 		<th class='revision'><%=l(:label_traces_revision)%></th>
@@ -22,9 +22,9 @@
 				<tr>
 					<% if idx == 0 %>
 						<td rowspan="<%=storyData.entries%>">
-   							<%= link_to(storyData.id, issue_path(Issue.find(storyData.id))) %>
-						</td>
-						<td rowspan="<%=storyData.entries%>"><%=storyData.summary%></td>
+            <%= link_to(storyData.id, issue_path(Issue.find(storyData.id))) %>
+            </td>
+            <td rowspan="<%=storyData.entries%>"><%=storyData.summary%></td>
 						<td rowspan="<%=storyData.requirements.size%>"><%=l(:label_traces_requirement)%></td>
 					<% end%>
 					<td><%=phaseData.path%></td>
@@ -41,11 +41,10 @@
 				<tr>
 					<% if idx == 0 && !storyRowFlag %>
 						<td rowspan="<%=storyData.entries%>">
-							<%= link_to(storyData.id, issue_path(Issue.find(storyData.id))) %>
-						</td>
-						<td rowspan="<%=storyData.entries%>"><%=storyData.summary%></td>
+              <%= link_to(storyData.id, issue_path(Issue.find(storyData.id))) %>
+            </td>
+            <td rowspan="<%=storyData.entries%>"><%=storyData.summary%></td>
 					<% end%>
-
 					<% if idx == 0 %>
 						<td rowspan="<%=storyData.designs.size%>"><%=l(:label_traces_design)%></td>
 					<% end%>
@@ -63,9 +62,9 @@
 				<tr>
 					<% if idx == 0 && !storyRowFlag %>
 						<td rowspan="<%=storyData.entries%>">
-							<%= link_to(storyData.id, issue_path(Issue.find(storyData.id))) %>
-						</td>
-						<td rowspan="<%=storyData.entries%>"><%=storyData.summary%></td>
+                <%= link_to(storyData.id, issue_path(Issue.find(storyData.id))) %>
+            </td>
+            <td rowspan="<%=storyData.entries%>"><%=storyData.summary%></td>
 					<% end%>
 					<% if idx == 0 %>
 						<td rowspan="<%=storyData.makes.size%>"><%=l(:label_traces_development)%></td>
@@ -84,9 +83,9 @@
 				<tr>
 					<% if idx == 0 && !storyRowFlag %>
 						<td rowspan="<%=storyData.entries%>">
-							<%= link_to(storyData.id, issue_path(Issue.find(storyData.id))) %>
-						</td>
-						<td rowspan="<%=storyData.entries%>"><%=storyData.summary%></td>
+              <%= link_to(storyData.id, issue_path(Issue.find(storyData.id))) %>
+            </td>
+            <td rowspan="<%=storyData.entries%>"><%=storyData.summary%></td>
 					<% end%>
 					<% if idx == 0 %>
 						<td rowspan="<%=storyData.tests.size%>"><%=l(:label_traces_testing)%></td>
@@ -100,16 +99,16 @@
 			<% storyRowFlag=true %>
 		<% end %>
 
-		<% if storyData.entries == 0 %>
+    <% if storyData.entries == 0 %>
         <tr>
             <% if !storyRowFlag %>
               <td rowspan="<%=storyData.entries%>">
                 <%= link_to(storyData.id, issue_path(Issue.find(storyData.id))) %>
               </td>
-							<td rowspan="<%=storyData.entries%>"><%=storyData.summary%></td>
+              <td rowspan="<%=storyData.entries%>"><%=storyData.summary%></td>
               <td colspan="3"><%=l(:lable_traces_artifacts_not_available)%></td>
             <% end %>
-        </tr>
+        <tr>
         <% storyRowFlag=true %>
     <% end %>
 
@@ -118,18 +117,19 @@
 </table
 
 <div>
-	 <% if @offset != 0 then%>
-	     <%=link_to(l(:label_traces_previous), {:controller => 'traces_home', :action => 'pages', :id => @project.identifier, :offset=> @offset}) %>
-	 <% end %>
-	 <%@offset=@offset + @limit.to_i %>
+  <% if @offset.to_i != 0 %>
+    <% prev = @offset.to_i - @limit.to_i %>
+    <%=link_to(l(:label_traces_previous), {:controller => 'traces_home', :action => 'pages', :id => @project.identifier, :offset=> prev}) %>
+  <% end %>
 
-   <% if @isNext %>
-	     <%=link_to(l(:label_traces_next), {:controller => 'traces_home', :action => 'pages', :id => @project.identifier, :offset => @offset}) %>
-	 <% end %>
+	<% @offset = @offset.to_i + @limit.to_i %>
+  <% if @isNext %>
+	  <%=link_to(l(:label_traces_next), {:controller => 'traces_home', :action => 'pages', :id => @project.identifier, :offset => @offset}) %>
+  <% end %>
 </div>
+
 <% end %>
 
 <% content_for :sidebar do %>
     <%= render :partial => 'issues/sidebar' %>
 <% end %>
-<% html_title(l(:text_menu_home)) %>
