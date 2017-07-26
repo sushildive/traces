@@ -1,6 +1,6 @@
 # Traces configuration
 config:
-  limit: "2"
+  limit: "5"
   artifact_cateogry:
     requirement: "requirements"
     design: "design"

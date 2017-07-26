@@ -147,7 +147,7 @@ module TracesHomeHelper
       limit = TracesHomeHelper::APP_CFG[:limit.to_s]
       ulimit = limit.to_i+1
       # Find list of issues in the input project matching to the story id pattern
-      issueList = Issue.select("issues.id, subject").joins("INNER JOIN projects ON projects.id=issues.project_id").where("issues.id=issues.root_id").where(["projects.id=?", projectId]).order("issues.id asc").limit(ulimit).offset(offset)
+      issueList = Issue.select("issues.id, subject").joins("INNER JOIN projects ON projects.id=issues.project_id").where("issues.id=issues.root_id").where(["projects.id=?", projectId]).order("issues.updated_on desc").limit(ulimit).offset(offset)
 
       # Initialize empty result
       stories=[]
