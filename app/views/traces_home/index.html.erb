@@ -119,9 +119,10 @@
 
 <div>
 	 <% if @offset != 0 then%>
-	     <%=link_to(l(:label_traces_previous), {:controller => 'traces_home', :action => 'pages', :id => @project.identifier, :offset=> @offset}) %>
+	 		 <%@offset=@offset - @limit%>
+			 <%=link_to(l(:label_traces_previous), {:controller => 'traces_home', :action => 'pages', :id => @project.identifier, :offset=> @offset}) %>
 	 <% end %>
-	 <%@offset=@offset + @limit.to_i %>
+	 <%@offset=@offset + @limit%>
 
    <% if @isNext %>
 	     <%=link_to(l(:label_traces_next), {:controller => 'traces_home', :action => 'pages', :id => @project.identifier, :offset => @offset}) %>

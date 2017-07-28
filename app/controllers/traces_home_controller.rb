@@ -12,24 +12,26 @@ class TracesHomeController < ApplicationController
   def index
     @project = Project.find(params[:project_id])
     @offset = 0
-    @limit = TracesHomeHelper::APP_CFG[:limit.to_s]
+    @limit = (TracesHomeHelper::APP_CFG[:limit.to_s]).to_i
     @data = TracesEngine.loadData @project.id, @offset
     @traces_data = @data.slice(0, @limit.to_i)
     @isNext = false
     if @data.size >  @limit.to_i
         @isNext = true
     end
+    render :index
   end
 
   def pages
-   @offset = params[:offset]
+   @offset = (params[:offset]).to_i
    @project = Project.find(params[:project_id])
-   @limit = TracesHomeHelper::APP_CFG[:limit.to_s]
+   @limit = (TracesHomeHelper::APP_CFG[:limit.to_s]).to_i
    @data = TracesEngine.loadData @project.id, @offset
    @traces_data = @data.slice(0, @limit.to_i)
    @isNext = false
    if @data.size >  @limit.to_i
        @isNext = true
    end
+   render :index
   end
 end
