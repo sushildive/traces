@@ -1,8 +1,8 @@
-table.tracelist {	border: 0px solid rgb(228, 228, 228); border-image: none; width: 100%; margin-bottom: 4px; border-collapse: collapse;}
+table.tracelist {	border: 0px solid rgb(228, 228, 228); border-image: none; width: 100%; margin-bottom: 4px; border-collapse: collapse;table-layout: fixed;overflow: scroll;}
 table.tracelist th.storyid {	width:6%;background-color: #628DB6;color: #f8f8f8;}
 table.tracelist th.storyname {	width:12%;background-color: #628DB6;color: #f8f8f8;}
 table.tracelist th.phase {	width:8%;background-color: #628DB6;color: #f8f8f8;}
 table.tracelist th.artifact {	width:54%;background-color: #628DB6;color: #f8f8f8;}
 table.tracelist th.revision {	width:20%;background-color: #628DB6;color: #f8f8f8;}
-table.tracelist tr td {	border: 1px solid rgb(220, 228, 228); border-image: none;}
+table.tracelist tr td {	border: 1px solid rgb(220, 228, 228); border-image: none;word-wrap:break-word}
 table.tracelist tbody tr :hover {	background-color: rgb(255, 255, 151);}
