@@ -15,3 +15,5 @@ en:
   label_traces_next: "next>"
   label_traces_previous: "<previous"
   lable_traces_artifacts_not_available: "Artifacts are not available."
+  lable_traces_search_criteria: "Search Criteria:"
+  lable_traces_search_button: "Search"

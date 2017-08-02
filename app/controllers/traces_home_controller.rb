@@ -10,28 +10,77 @@ class TracesHomeController < ApplicationController
   include TracesHomeHelper::TracesEngine
 
   def index
+    @question = params[:q] || ""
     @project = Project.find(params[:project_id])
     @offset = 0
     @limit = (TracesHomeHelper::APP_CFG[:limit.to_s]).to_i
+    @data = nil
+    @traces_data = nil
+    #puts "(Traces)Search By text:#@question -- #@offset --limit:#@limit"
     @data = TracesEngine.loadData @project.id, @offset
-    @traces_data = @data.slice(0, @limit.to_i)
-    @isNext = false
-    if @data.size >  @limit.to_i
-        @isNext = true
+    if !@data.nil? then
+      @traces_data = @data.slice(0, @limit.to_i)
+      if @data.size >  @limit.to_i
+         @isNext = true
+       end
     end
     render :index
   end
 
   def pages
+   @question = params[:q] || ""
+   @offset = (params[:offset]).to_i
+   @isNext = false
+   @data = nil
+   @traces_data = nil
+   @project = Project.find(params[:project_id])
+   @limit = (TracesHomeHelper::APP_CFG[:limit.to_s]).to_i
+   #puts "(Pages)Search By text:#@question -- offset:#@offset --limit:#@limit"
+
+   if !@question.nil? && !@question.empty? then
+      @data = TracesEngine.loadDataByCriteria @question, @project.id, @offset
+   else
+      @data = TracesEngine.loadData @project.id, @offset
+   end
+
+   if !@data.nil? then
+     @traces_data = @data.slice(0, @limit.to_i)
+     if @data.size >  @limit.to_i
+        @isNext = true
+      end
+   end
+   render :index
+  end
+
+  def searchstory
+   @question = params[:q] || ""
    @offset = (params[:offset]).to_i
    @project = Project.find(params[:project_id])
    @limit = (TracesHomeHelper::APP_CFG[:limit.to_s]).to_i
-   @data = TracesEngine.loadData @project.id, @offset
-   @traces_data = @data.slice(0, @limit.to_i)
+   @data = nil
+   @traces_data = nil
    @isNext = false
-   if @data.size >  @limit.to_i
-       @isNext = true
+   #puts "(Criteria)Search By text:#@question -- offset:#@offset --limit:#@limit"
+
+   # quick jump to an issue
+   if (m = @question.match(/^#+(\d+)$/)) && (issue = Issue.visible.find_by_id(m[1].to_i))
+     redirect_to issue_path(issue)
+     return
    end
+
+   if !@question.nil? && !@question.empty? then
+      @data = TracesEngine.loadDataByCriteria @question, @project.id, @offset
+   else
+      @data = TracesEngine.loadData @project.id, @offset
+   end
+
+   if !@data.nil? then
+     @traces_data = @data.slice(0, @limit.to_i)
+     if @data.size >  @limit.to_i
+        @isNext = true
+      end
+   end
+
    render :index
   end
 end
