@@ -1,5 +1,5 @@
 table.tracelist {	border: 0px solid rgb(228, 228, 228); border-image: none; width: 100%; margin-bottom: 4px; border-collapse: collapse;table-layout: fixed;}
-table.tracelist tbody {overflow: scroll;}
+div.scroll-div {overflow:auto; height: 500px;}
 table.tracelist th.storyid {	width:6%;background-color: #628DB6;color: #f8f8f8;}
 table.tracelist th.storyname {	width:12%;background-color: #628DB6;color: #f8f8f8;}
 table.tracelist th.phase {	width:8%;background-color: #628DB6;color: #f8f8f8;}

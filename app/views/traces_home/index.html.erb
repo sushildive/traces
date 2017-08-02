@@ -19,6 +19,7 @@
 
 <br>
 <% if !@traces_data.empty? %>
+<div class="scroll-div">
 <table class="tracelist">
 <thead>
 	<tr>
@@ -131,8 +132,8 @@
 
     <% end %>
 </tbody>
-</table
-
+</table>
+</div>
 <div>
 	 <% if @offset != 0 then%>
 	 		 <%@offset=@offset - @limit%>
