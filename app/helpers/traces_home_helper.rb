@@ -165,6 +165,19 @@ module TracesHomeHelper
       stories
     end
 
+    def self.loadDataByIssueId(issue)
+      return [] unless !issue.nil?
+      # Initialize empty result
+      stories=[]
+      # Now, for identified issue, extract story Ids and load the trace data
+      stories = stories + toStories(issue)
+      # Now, for story, find the commits
+      stories.each do |story|
+        loadArtifacts story
+      end
+      stories
+    end
+
     def self.loadDataByCriteria(criteria,projectId,offset)
       return [] unless !criteria.nil?
       limit = TracesHomeHelper::APP_CFG[:limit.to_s]

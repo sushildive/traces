@@ -64,11 +64,10 @@ class TracesHomeController < ApplicationController
 
    # quick jump to an issue
    if (m = @question.match(/^#+(\d+)$/)) && (issue = Issue.visible.find_by_id(m[1].to_i))
-     redirect_to issue_path(issue)
-     return
-   end
-
-   if !@question.nil? && !@question.empty? then
+      if issue.id == issue.root_id
+        @data = TracesEngine.loadDataByIssueId issue
+      end
+   elsif !@question.nil? && !@question.empty? then
       @data = TracesEngine.loadDataByCriteria @question, @project.id, @offset
    else
       @data = TracesEngine.loadData @project.id, @offset
@@ -80,7 +79,6 @@ class TracesHomeController < ApplicationController
         @isNext = true
       end
    end
-
    render :index
   end
 end

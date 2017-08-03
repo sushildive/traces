@@ -15,10 +15,10 @@
 	<% end %>
   </div>
 </fieldset>
-<%= content_tag('p', l(:label_no_data), :class => 'nodata') if @traces_data.empty? %>
+<%= content_tag('p', l(:label_no_data), :class => 'nodata') if @traces_data.nil? ||  @traces_data.empty? %>
 
 <br>
-<% if !@traces_data.empty? %>
+<% if !@traces_data.nil? && !@traces_data.empty? %>
 <div class="scroll-div">
 <table class="tracelist">
 <thead>
@@ -136,13 +136,13 @@
 </div>
 <div>
 	 <% if @offset != 0 then%>
-	 		 <%@offset=@offset - @limit%>
+	 		 <%previous=@offset - @limit%>
        <% if !@question.nil? && !@question.empty? then %>
-			    <%=link_to(l(:label_traces_previous), {:controller => 'traces_home', :action => 'pages', :id => @project.identifier, :offset=> @offset, :q => @question}) %>
+			    <%=link_to(l(:label_traces_previous), {:controller => 'traces_home', :action => 'pages', :id => @project.identifier, :offset=> previous, :q => @question}) %>
        <% else %>
-          <%=link_to(l(:label_traces_previous), {:controller => 'traces_home', :action => 'pages', :id => @project.identifier, :offset=> @offset}) %>
+          <%=link_to(l(:label_traces_previous), {:controller => 'traces_home', :action => 'pages', :id => @project.identifier, :offset=> previous}) %>
        <% end %>
-	 <% end %>
+	 <% end %><% if @offset != 0 && @isNext then %> | <%end%>
 
 	 <%@offset=@offset + @limit%>
 
