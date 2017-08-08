@@ -1,0 +1,104 @@
+<h2>RTM</h2>
+<% if !@traces_data.nil? && !@traces_data.empty? %>
+<div class="scroll-div">
+<table border="1">
+<thead>
+	<tr>
+		<th ><%=l(:label_traces_story)%></th>
+		<th ><%=l(:label_traces_story_subject)%></th>
+		<th ><%=l(:label_traces_phase)%></th>
+		<th ><%=l(:label_traces_artifact)%></th>
+	</tr>
+</thead>
+<tbody>
+    <% @traces_data.each_with_index do |storyData, idx| %>
+		<% storyRowFlag=false %>
+		<% if !storyData.requirements.nil? && !storyData.requirements.empty? %>
+			<% storyData.requirements.each_with_index do |phaseData, idx| %>
+				<tr>
+					<% if idx == 0 %>
+						<td rowspan="<%=storyData.entries%>">
+   							<%= storyData.id %>
+						</td>
+						<td rowspan="<%=storyData.entries%>"><%=storyData.summary%></td>
+						<td rowspan="<%=storyData.requirements.size%>"><%=l(:label_traces_requirement)%></td>
+					<% end%>
+					<td><%=phaseData.path%></td>
+				</tr>
+			<% end %>
+			<% storyRowFlag=true %>
+		<% end %>
+
+		<% if !storyData.designs.nil? && !storyData.designs.empty? %>
+			<% storyData.designs.each_with_index do |phaseData, idx| %>
+				<tr>
+					<% if idx == 0 && !storyRowFlag %>
+						<td rowspan="<%=storyData.entries%>">
+							<%= storyData.id %>
+						</td>
+						<td rowspan="<%=storyData.entries%>"><%=storyData.summary%></td>
+					<% end%>
+
+					<% if idx == 0 %>
+						<td rowspan="<%=storyData.designs.size%>"><%=l(:label_traces_design)%></td>
+					<% end%>
+					<td><%=phaseData.path%></td>
+				</tr>
+			<% end %>
+			<% storyRowFlag=true %>
+		<% end %>
+
+		<% if !storyData.makes.nil? && !storyData.makes.empty? %>
+			<% storyData.makes.each_with_index do |phaseData, idx| %>
+				<tr>
+					<% if idx == 0 && !storyRowFlag %>
+						<td rowspan="<%=storyData.entries%>">
+							<%= storyData.id %>
+						</td>
+						<td rowspan="<%=storyData.entries%>"><%=storyData.summary%></td>
+					<% end%>
+					<% if idx == 0 %>
+						<td rowspan="<%=storyData.makes.size%>"><%=l(:label_traces_development)%></td>
+					<% end%>
+					<td><%=phaseData.path%></td>
+				</tr>
+			<% end %>
+			<% storyRowFlag=true %>
+		<% end %>
+
+		<% if !storyData.tests.nil? && !storyData.tests.empty? %>
+			<% storyData.tests.each_with_index do |phaseData, idx| %>
+				<tr>
+					<% if idx == 0 && !storyRowFlag %>
+						<td rowspan="<%=storyData.entries%>">
+							<%= storyData.id %>
+						</td>
+						<td rowspan="<%=storyData.entries%>"><%=storyData.summary%></td>
+					<% end%>
+					<% if idx == 0 %>
+						<td rowspan="<%=storyData.tests.size%>"><%=l(:label_traces_testing)%></td>
+					<% end%>
+					<td><%=phaseData.path%></td>
+				</tr>
+			<% end %>
+			<% storyRowFlag=true %>
+		<% end %>
+
+		<% if storyData.entries == 0 %>
+        <tr>
+            <% if !storyRowFlag %>
+              <td rowspan="<%=storyData.entries%>">
+                <%= storyData.id %>
+              </td>
+							<td rowspan="<%=storyData.entries%>"><%=storyData.summary%></td>
+              <td colspan="2"><%=l(:lable_traces_artifacts_not_available)%></td>
+            <% end %>
+        </tr>
+        <% storyRowFlag=true %>
+    <% end %>
+
+    <% end %>
+</tbody>
+</table>
+</div>
+<% end %>

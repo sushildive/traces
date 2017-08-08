@@ -15,10 +15,15 @@
 	<% end %>
   </div>
 </fieldset>
+
 <%= content_tag('p', l(:label_no_data), :class => 'nodata') if @traces_data.nil? ||  @traces_data.empty? %>
 
 <br>
 <% if !@traces_data.nil? && !@traces_data.empty? %>
+<p>
+  Download:
+  <%=link_to("Excel", {:controller => 'traces_home', :action => 'export', :format => 'xls', :q => @question}) %>
+</p>
 <div class="scroll-div">
 <table class="tracelist">
 <thead>

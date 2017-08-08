@@ -198,6 +198,26 @@ module TracesHomeHelper
       stories
     end
 
+    def self.loadAllData(criteria,projectId)
+      return [] unless !criteria.nil?
+      limit = TracesHomeHelper::APP_CFG[:limit.to_s]
+      ulimit = limit.to_i+1
+      # Find issue in the input project matching to the issue id
+      issueList = Issue.select("issues.id, subject").joins("INNER JOIN projects ON projects.id=issues.project_id").where(["projects.id=?", projectId]).where(["lower(issues.subject) like lower(?)", "%".concat(criteria).concat("%")]).order("issues.updated_on desc")
+
+      # Initialize empty result
+      stories=[]
+      # Now, for each identified issue, extract story Ids and load the trace data
+      issueList.each do |issueData|
+        stories = stories + toStories(issueData)
+      end
+      # Now, for each story, find the commits
+      stories.each do |story|
+        loadArtifacts story
+      end
+      stories
+    end
+
     def self.loadArtifacts (story)
       storyId = story.id
       #storyChanges = Change.joins("INNER JOIN changesets ON changesets.id=changes.changeset_id").where(["comments like ?", storyPattern])

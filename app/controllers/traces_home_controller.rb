@@ -81,4 +81,20 @@ class TracesHomeController < ApplicationController
    end
    render :index
   end
+
+  def export
+    @question = params[:q] || ""
+    @project = Project.find(params[:project_id])
+    @traces_data = nil
+    if (m = @question.match(/^#+(\d+)$/)) && (issue = Issue.visible.find_by_id(m[1].to_i))
+       if issue.id == issue.root_id
+         @traces_data = TracesEngine.loadDataByIssueId issue
+       end
+    else
+         @traces_data = TracesEngine.loadAllData @question, @project.id
+    end
+    respond_to do |format|
+        format.xls
+    end
+  end
 end
