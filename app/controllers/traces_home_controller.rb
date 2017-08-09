@@ -36,9 +36,15 @@ class TracesHomeController < ApplicationController
    @project = Project.find(params[:project_id])
    @limit = (TracesHomeHelper::APP_CFG[:limit.to_s]).to_i
    #puts "(Pages)Search By text:#@question -- offset:#@offset --limit:#@limit"
+   @criteria = nil
+   if(@question.match(/^%+$/))
+      @criteria = "\\" + @question
+   else
+      @criteria = @question
+   end
 
    if !@question.nil? && !@question.empty? then
-      @data = TracesEngine.loadDataByCriteria @question, @project.id, @offset
+      @data = TracesEngine.loadDataByCriteria @criteria, @project.id, @offset
    else
       @data = TracesEngine.loadData @project.id, @offset
    end
@@ -54,6 +60,12 @@ class TracesHomeController < ApplicationController
 
   def searchstory
    @question = params[:q] || ""
+   @criteria = nil
+   if(@question.match(/^%+$/))
+      @criteria = "\\" + @question
+   else
+      @criteria = @question
+   end
    @offset = (params[:offset]).to_i
    @project = Project.find(params[:project_id])
    @limit = (TracesHomeHelper::APP_CFG[:limit.to_s]).to_i
@@ -68,7 +80,7 @@ class TracesHomeController < ApplicationController
         @data = TracesEngine.loadDataByIssueId issue
       end
    elsif !@question.nil? && !@question.empty? then
-      @data = TracesEngine.loadDataByCriteria @question, @project.id, @offset
+      @data = TracesEngine.loadDataByCriteria @criteria, @project.id, @offset
    else
       @data = TracesEngine.loadData @project.id, @offset
    end
@@ -86,12 +98,19 @@ class TracesHomeController < ApplicationController
     @question = params[:q] || ""
     @project = Project.find(params[:project_id])
     @traces_data = nil
+    @criteria = nil
+    if(@question.match(/^%+$/))
+       @criteria = "\\" + @question
+    else
+       @criteria = @question
+    end
+
     if (m = @question.match(/^#+(\d+)$/)) && (issue = Issue.visible.find_by_id(m[1].to_i))
        if issue.id == issue.root_id
          @traces_data = TracesEngine.loadDataByIssueId issue
        end
     else
-         @traces_data = TracesEngine.loadAllData @question, @project.id
+         @traces_data = TracesEngine.loadAllData @criteria, @project.id
     end
     respond_to do |format|
         format.xls
