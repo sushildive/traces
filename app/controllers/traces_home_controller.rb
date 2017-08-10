@@ -37,8 +37,9 @@ class TracesHomeController < ApplicationController
    @limit = (TracesHomeHelper::APP_CFG[:limit.to_s]).to_i
    #puts "(Pages)Search By text:#@question -- offset:#@offset --limit:#@limit"
    @criteria = nil
-   if(@question.match(/^%+$/))
-      @criteria = "\\" + @question
+   if(@question.match(/%/))
+      @criteria = params[:q] + ""
+      @criteria.gsub!('%', '\\%')
    else
       @criteria = @question
    end
@@ -61,8 +62,9 @@ class TracesHomeController < ApplicationController
   def searchstory
    @question = params[:q] || ""
    @criteria = nil
-   if(@question.match(/^%+$/))
-      @criteria = "\\" + @question
+   if(@question.match(/%/))
+      @criteria = params[:q] + ""
+      @criteria.gsub!('%', '\\%')
    else
       @criteria = @question
    end
@@ -99,8 +101,9 @@ class TracesHomeController < ApplicationController
     @project = Project.find(params[:project_id])
     @traces_data = nil
     @criteria = nil
-    if(@question.match(/^%+$/))
-       @criteria = "\\" + @question
+    if(@question.match(/%/))
+       @criteria = params[:q] + ""
+       @criteria.gsub!('%', '\\%')
     else
        @criteria = @question
     end
